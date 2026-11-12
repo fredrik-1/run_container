@@ -35,7 +35,6 @@ jobs:
         with:
           workload_identity_provider: projects/1036908354484/locations/global/workloadIdentityPools/github-pool/providers/github-provider2
           service_account: peakbook-container@learn-bq-514121.iam.gserviceaccount.com
-          token_format: id_token
           id_token_include_email: true
 
       - uses: actions/setup-python@v5
