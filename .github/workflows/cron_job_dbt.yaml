@@ -18,7 +18,7 @@ jobs:
 
     env:
       DBT_PROFILES_DIR: ./
-      GCP_PROJECT: database: "learn-bq-514121"
+      GCP_PROJECT: "learn-bq-514121"
       BQ_DATASET: peakbook
 
     steps:
