@@ -2,7 +2,7 @@ name: run container
 
 on:
   schedule:
-    - cron: "25 17 * * *"
+    - cron: "23 20 * * *"
   workflow_dispatch:
 
 permissions:
