@@ -1,0 +1,51 @@
+name: dbt
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 5 * * *"      # every day at 05:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write             # needed for Workload Identity Federation
+
+jobs:
+  dbt:
+    runs-on: ubuntu-latest
+
+    env:
+      DBT_PROFILES_DIR: ./
+      GCP_PROJECT: database: learn-bq-514121
+      BQ_DATASET: peakbook
+
+    steps:
+      - name: get the dbt repo
+        uses: actions/checkout@v7
+        with:
+          repository: fredrik-1/peakbook-dbt
+          token: ${{ secrets.DBT_TOKEN }}
+          path: ./
+
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/1036908354484/locations/global/workloadIdentityPools/github-pool/providers/github-provider2
+          service_account: peakbook-container@learn-bq-514121.iam.gserviceaccount.com
+          token_format: id_token
+          id_token_include_email: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Install dbt
+        run: pip install dbt-core dbt-bigquery
+
+      - run: dbt deps
+      - run: dbt debug
+      - run: dbt build --target dev
