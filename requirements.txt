@@ -1,0 +1,2 @@
+# Same versions as the local python_13_new env, so the pickles stay compatible
+pandas==3.0.1
