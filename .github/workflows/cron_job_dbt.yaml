@@ -1,11 +1,8 @@
 name: dbt
 
 on:
-  push:
-    branches: [main]
-  pull_request:
   schedule:
-    - cron: "0 5 * * *"      # every day at 05:00 UTC
+    - cron: "13 5 * * *"      # every day at 05:00 UTC
   workflow_dispatch:
 
 permissions:
